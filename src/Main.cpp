@@ -8,8 +8,6 @@ int main() {
 
     BSResult res = calculate_bs(S, K, r, sigma, T);
 
-    std::cout << "Prix calculé : " << res.price << std::endl;
-    std::cout << "Delta : " << res.delta << std::endl;
 
     return 0;
 }

@@ -5,7 +5,7 @@
 #define PRICING_ENGINE_BLACKSCHOLES_H
 
 struct BSResult {
-    double price, delta, gamma, vega;
+    double price, delta, gamma, vega, theta, rho;
 };
 
 double norm_cdf(double x);
