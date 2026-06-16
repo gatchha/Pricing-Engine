@@ -1,7 +1,3 @@
-//
-// Created by Ulysse B on 16/06/2026.
-//
-
 #include "BlackScholes.h"
 #include <cmath>
 #include <numbers>
@@ -15,19 +11,19 @@ double norm_pdf(double x) {
 }
 
 BSResult calculate_bs(double S, double K, double r, double sigma, double T) {
-    double sigma_sqrt_T = sigma * std::sqrt(T);
-    double d1 = (std::log(S / K) + (r + (sigma * sigma) / 2.0) * T) / sigma_sqrt_T;
+    double sqrt_T = std::sqrt(T);
+    double sigma_sqrt_T = sigma * sqrt_T;
+    
+    double d1 = (std::log(S / K) + (r + 0.5 * sigma * sigma) * T) / sigma_sqrt_T;
     double d2 = d1 - sigma_sqrt_T;
+
+    double pdf_d1 = norm_pdf(d1);
 
     BSResult res;
     res.price = S * norm_cdf(d1) - K * std::exp(-r * T) * norm_cdf(d2);
     res.delta = norm_cdf(d1);
-    res.gamma = norm_pdf(d1) / (S * sigma_sqrt_T);
-    res.vega  = S * norm_pdf(d1) * std::sqrt(T);
+    res.gamma = pdf_d1 / (S * sigma_sqrt_T);
+    res.vega  = S * pdf_d1 * sqrt_T;
 
     return res;
 }
-
-
-
-
