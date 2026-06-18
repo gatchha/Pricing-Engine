@@ -1,5 +1,7 @@
 #include "BlackScholes.h"
 #include <iostream>
+#include "mc_engine.h"
+
 
 int main() {
 
@@ -7,7 +9,10 @@ int main() {
 
 
     BSResult res = calculate_bs(S, K, r, sigma, T);
+    std::cout << res.price << std::endl;
 
+    MCResult res2 = monte_carlo_call(S,T,sigma,r,K,1000000);
+    std::cout<< res2.St<<std::endl;
 
     return 0;
 }
