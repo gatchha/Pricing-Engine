@@ -4,6 +4,7 @@
 
 int main() {
     double S = 100.0, K = 100.0, r = 0.05, sigma = 0.2, T = 1.0;
+    int num_day = 252, num_sim = 1000000;
 
 
     BSResult res = calculate_bs(S, K, r, sigma, T);
@@ -28,5 +29,14 @@ int main() {
 
     std::cout << "Confidence Interval 95% : [" << lowerBound << ", " << upperBound << "]" << std::endl;
 
+    MCResult res_asian = monte_carlo_asian(S, T, sigma, r, K, num_sim, num_day);
+
+    std::cout << "Monte Carlo Price (Asiatique) : " << res_asian.price << std::endl;
+    std::cout << "Std Error (Vanilla)           : " << res_asian.stderror_vanilla << std::endl;
+
+    double lower_asian = res_asian.price - (1.96 * res_asian.stderror_vanilla);
+    double upper_asian = res_asian.price + (1.96 * res_asian.stderror_vanilla);
+
+    std::cout << "Confidence Interval 95%       : [" << lower_asian << ", " << upper_asian << "]" << std::endl;
     return 0;
 }

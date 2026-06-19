@@ -16,4 +16,6 @@ struct MCResult {
 };
 
 MCResult monte_carlo_call(double S, double T, double sigma, double r, double K, double num_sim);
+MCResult monte_carlo_asian (double S, double T, double sigma, double r, double K, int num_sim, int num_day);
+
 #endif //PRICING_ENGINE_MC_ENGINE_H
