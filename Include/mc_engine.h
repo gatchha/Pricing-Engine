@@ -5,8 +5,6 @@
 #ifndef PRICING_ENGINE_MC_ENGINE_H
 #define PRICING_ENGINE_MC_ENGINE_H
 #include "BlackScholes.h"
-#include <cmath>
-#include <numbers>
 
 struct MCResult {
         double price;

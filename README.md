@@ -10,7 +10,7 @@ A financial options pricing engine developed in C++. The objective of this proje
 * **Barrier Monte Carlo:** Up-and-Out Option with conditional deactivation optimization (early-exit) to save CPU cycles.
 
 ## Performance Benchmark
-A cross-language C++ vs Python script is included to measure execution time on exotic products (requiring up to 252 million iterations). The native C++ code demonstrates a massive speedup (x50 factor) compared to the Python implementation, validating the architectural choice for this type of stochastic load.
+A cross-language C++ vs Python script is included to measure execution time on exotic products (requiring up to 252 million iterations). On a 1M-path Asian option (252 steps), the C++ Release build runs in ~8.9s against an estimated ~107s for pure Python — a **~12x speedup** — validating the architectural choice for this type of stochastic load. See `Benchmark.md` for full results.
 
 ## Build and Execution
 The project uses CMake for the build process.
