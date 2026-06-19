@@ -5,7 +5,7 @@
 
 #include <random>
 
-MCResult monte_carlo_call(double S, double T, double sigma, double r, double K, double num_sim) {
+MCResult monte_carlo_call(double S, double T, double sigma, double r, double K, int num_sim) {
     double u = S*(std::exp((r-(sigma*sigma)/2)*T));
     double sqrtT = std::sqrt(T);
     double volTerme = sigma*sqrtT;
