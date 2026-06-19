@@ -1,27 +1,25 @@
-# Pricing Engine
-
-Moteur de calcul financier basé sur le modèle de Black-Scholes.
+# C++ High-Performance Pricing Engine
 
 ## Description
-Ce projet implémente l'évaluation analytique d'options de type Call et le calcul des Greeks (Delta, Gamma, Vega) en C++.
+A financial options pricing engine developed in C++. The objective of this project is to leverage low-level software engineering (C++) to solve the latency bottleneck associated with intensive stochastic computing, featuring a performance benchmark against Python.
 
-## Structure du projet
-- `src/` : Implémentation du moteur de calcul (`BlackScholes.cpp`, `Main.cpp`).
-- `Include/` : Définitions et interfaces (`BlackScholes.h`).
-- `CMakeLists.txt` : Configuration du système de build.
+## Features
+* **Closed-form Solution:** Black-Scholes model and Greeks calculation.
+* **Standard Monte Carlo:** European Call Option (with Antithetic Variates for variance reduction).
+* **Path-Dependent Monte Carlo:** Asian Call Option (Arithmetic mean over 252 days).
+* **Barrier Monte Carlo:** Up-and-Out Option with conditional deactivation optimization (early-exit) to save CPU cycles.
 
-## Compilation et exécution
-Le projet utilise CMake.
-1. Charger le projet dans votre IDE (CLion recommandé).
-2. Configurer le build via `CMakeLists.txt`.
-3. Compiler et exécuter.
+## Performance Benchmark
+A cross-language C++ vs Python script is included to measure execution time on exotic products (requiring up to 252 million iterations). The native C++ code demonstrates a massive speedup (x50 factor) compared to the Python implementation, validating the architectural choice for this type of stochastic load.
 
-## Fonctionnalités
-- Calcul du prix d'une option Call.
-- Calcul des Greeks :
-    - Delta ($\Delta$)
-    - Gamma ($\Gamma$)
-    - Vega ($\nu$)
+## Build and Execution
+The project uses CMake for the build process.
 
-## Dépendances
-- C++20
+```bash
+# Build the project
+mkdir build && cd build
+cmake ..
+make
+
+# Run the performance benchmark
+./Pricing-Engine
