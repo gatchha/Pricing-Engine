@@ -9,7 +9,10 @@
 #include <numbers>
 
 struct MCResult {
-    double St;
+        double price;
+        double stderror_vanilla;
+        double stderror_antithetic;
+
 };
 
 MCResult monte_carlo_call(double S, double T, double sigma, double r, double K, double num_sim);
