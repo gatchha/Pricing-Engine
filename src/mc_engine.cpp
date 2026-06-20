@@ -66,34 +66,54 @@ MCResult monte_carlo_asian(double S, double T, double sigma, double r, double K,
     std::random_device rd;
     std::mt19937 gen(rd());
     std::normal_distribution<double> dis(0.0, 1.0);
-    double payoffSum= 0.0;
-    double payoffSquaredSum = 0.0;
+    double sum_Y = 0.0;
+    double sum_Y2 = 0.0;
+    double sum_X = 0.0;
+    double sum_X2 = 0.0;
+    double sum_XY = 0.0;
     double Stsum = 0.0;
 
     for (int i = 0; i < num_sim; i++) {
         Stsum = 0;
-        double Current_S= S;
+        double Current_S = S;
         for (int j = 0; j < num_day; j++) {
             double Z1 = dis(gen);
-
-            Current_S = Current_S*drift* std::exp(volTerme*Z1);
+            Current_S = Current_S * drift * std::exp(volTerme * Z1);
             Stsum += Current_S;
         }
-        double payoff = std::max((Stsum / num_day)-K,0.0);
-
-        payoffSum += payoff;
-        payoffSquaredSum += payoff*payoff;
+        double payoff_asian = std::max((Stsum / num_day) - K, 0.0);
+        double payoff_euro  = std::max(Current_S - K, 0.0);
+        sum_Y  += payoff_asian;
+        sum_Y2 += payoff_asian * payoff_asian;
+        sum_X  += payoff_euro;
+        sum_X2 += payoff_euro * payoff_euro;
+        sum_XY += payoff_asian * payoff_euro;
     }
-    double MeanPayoff = payoffSum / num_sim;
-    double MeanPayoffsquared = payoffSquaredSum / num_sim;
-    double variance = MeanPayoffsquared - (MeanPayoff * MeanPayoff);
-    double stdDev = std::sqrt(variance);
+
+    double mean_Y  = sum_Y  / num_sim;
+    double mean_X  = sum_X  / num_sim;
+    double mean_Y2 = sum_Y2 / num_sim;
+    double mean_X2 = sum_X2 / num_sim;
+    double mean_XY = sum_XY / num_sim;
+
+    double VarY = mean_Y2 - mean_Y * mean_Y;
+    double stdDev = std::sqrt(VarY);
     double stderror = stdDev / std::sqrt(num_sim);
+    double Cov = mean_XY-mean_Y*mean_X;
+    double VarX = mean_X2 - mean_X*mean_X;
+    double beta = Cov/VarX;
+    BSResult bs = calculate_bs(S, K, r, sigma, T);
+    double bs_price = bs.price;
+    double price_cv = mean_Y-(beta*(mean_X-bs_price*std::exp(r*T)));
+    double variance_cv = VarY+(beta*beta)*VarX-2*beta*Cov;
+    double stderror_cv = (std::sqrt(variance_cv))/std::sqrt(num_sim);
 
     MCResult f;
-    f.price = MeanPayoff * discountFactor;
+    f.price = price_cv * discountFactor;
     f.stderror_vanilla = stderror * discountFactor;
     f.stderror_antithetic = 0.0;
+    f.stderror_cv = stderror_cv;
+    f.beta = beta;
 
     return f;
 }

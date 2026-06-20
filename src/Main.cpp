@@ -10,31 +10,34 @@ int main() {
     double barrier = 120.0;
 
 
-    std::cout << "[1/3] Pricing Call Européen..." << std::flush;
+    std::cout << "Pricing Call Européen..." << std::flush;
     auto start_eur = std::chrono::high_resolution_clock::now();
     MCResult res_eur = monte_carlo_call(S, T, sigma, r, K, num_sim);
     auto end_eur = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> time_eur = end_eur - start_eur;
-    std::cout << "      Prix: " << std::fixed << std::setprecision(5) << res_eur.price
-              << " | Temps: " << time_eur.count() << " sec\n" << std::endl;
+    std::cout << "      Price: " << std::fixed << std::setprecision(5) << res_eur.price
+              << " | Time: " << time_eur.count() << " sec\n" << std::endl;
 
 
-    std::cout << "[2/3] Pricing Call Asiatique (252 jours)..." << std::flush;
+    std::cout << " Pricing Call Asiatique (252 jours)..." << std::flush;
     auto start_asian = std::chrono::high_resolution_clock::now();
     MCResult res_asian = monte_carlo_asian(S, T, sigma, r, K, num_sim, num_day);
     auto end_asian = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> time_asian = end_asian - start_asian;
-    std::cout << "      Prix: " << res_asian.price
-              << " | Temps: " << time_asian.count() << " sec\n" << std::endl;
+    std::cout << "      Price: " << res_asian.price
+              << " | Time: " << time_asian.count() << " sec\n" << std::endl;
 
 
-    std::cout << "[3/3] Pricing Barrière Up-and-Out (B=" << barrier << ")..." << std::flush;
+    std::cout << "Pricing Barrière Up-and-Out (B=" << barrier << ")..." << std::flush;
     auto start_bar = std::chrono::high_resolution_clock::now();
     MCResult res_bar = monte_carlo_barrier(S, T, sigma, r, K, num_sim, num_day, barrier);
     auto end_bar = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> time_bar = end_bar - start_bar;
-    std::cout << "       Prix: " << res_bar.price
-              << " | Temps: " << time_bar.count() << " sec\n" << std::endl;
+    std::cout << "       Price: " << res_bar.price
+              << " | Time: " << time_bar.count() << " sec\n" << std::endl;
+
+    std::cout<<"Standard error : "<<res_asian.stderror_vanilla<<std::endl;
+    std::cout<<"Control variate standard error : "<<res_asian.stderror_cv<<std::endl;
 
     return 0;
 }

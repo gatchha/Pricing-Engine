@@ -10,6 +10,8 @@ struct MCResult {
         double price;
         double stderror_vanilla;
         double stderror_antithetic;
+        double beta;
+        double stderror_cv;
 
 };
 
