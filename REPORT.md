@@ -1,8 +1,8 @@
-# Pricing Engine — Technical Report
+# Pricing Engine 
 
 ## Overview
 
-A high-performance C++ options pricing engine implementing closed-form and Monte Carlo methods, with variance reduction techniques and an implied volatility solver. Benchmarked against a pure Python implementation.
+A C++ options pricing engine implementing closed-form and Monte Carlo methods, with variance reduction techniques and an implied volatility solver. Benchmarked against a pure Python implementation.
 
 **Stack:** C++20 · CMake · Python 3
 
@@ -85,10 +85,4 @@ Two algorithms implemented and benchmarked:
 
 ---
 
-## 6. Build & Run
 
-```bash
-cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
-cmake --build cmake-build-release
-./cmake-build-release/Pricing-Engine
-```
