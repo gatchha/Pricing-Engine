@@ -5,6 +5,8 @@
 
 #include <random>
 
+#include "BlackScholes.h"
+
 MCResult monte_carlo_call(double S, double T, double sigma, double r, double K, int num_sim) {
     double u = S*(std::exp((r-(sigma*sigma)/2)*T));
     double sqrtT = std::sqrt(T);
@@ -73,6 +75,7 @@ MCResult monte_carlo_asian(double S, double T, double sigma, double r, double K,
         double Current_S= S;
         for (int j = 0; j < num_day; j++) {
             double Z1 = dis(gen);
+
             Current_S = Current_S*drift* std::exp(volTerme*Z1);
             Stsum += Current_S;
         }

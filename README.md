@@ -15,11 +15,3 @@ A cross-language C++ vs Python script is included to measure execution time on e
 ## Build and Execution
 The project uses CMake for the build process.
 
-```bash
-# Build the project
-mkdir build && cd build
-cmake ..
-make
-
-# Run the performance benchmark
-./Pricing-Engine
