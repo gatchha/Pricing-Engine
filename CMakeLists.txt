@@ -3,6 +3,8 @@ project(Pricing-Engine)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Pricing-Engine src/BlackScholes.cpp src/Main.cpp src/mc_engine.cpp)
+add_executable(Pricing-Engine src/BlackScholes.cpp src/Main.cpp src/mc_engine.cpp
+        src/ImpliedVol.cpp
+        Include/ImpliedVol.h)
 
 target_include_directories(Pricing-Engine PRIVATE Include)
